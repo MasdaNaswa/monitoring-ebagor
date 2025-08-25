@@ -9,7 +9,8 @@
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-blue-200 flex justify-center items-center min-h-screen font-sans text-gray-800">
 
-    <div class="login-container relative bg-white p-10 rounded-xl shadow-lg w-96 overflow-hidden">
+    <div class="login-container relative bg-white p-10 rounded-xl shadow-lg w-[500px] overflow-hidden">
+
         <!-- Top gradient bar -->
         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-green-400"></div>
 

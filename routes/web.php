@@ -11,7 +11,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Dashboard Route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -22,7 +21,7 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 
-// Logout Route 
+// Logout Route - Diperbaiki
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // RB Routes

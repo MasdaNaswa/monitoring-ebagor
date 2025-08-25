@@ -73,7 +73,7 @@
 
   <!-- Footer Logout -->
   <div class="sidebar-footer">
-    <form action="{{ route('logout') }}" method="POST">
+    <form action="{{ route('login') }}" method="POST">
       @csrf
       <button type="submit" class="logout-btn">
         <i class="material-icons">logout</i> <span>Keluar</span>
