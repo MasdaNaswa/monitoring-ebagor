@@ -83,6 +83,22 @@
 </aside>
 
 <script>
+  // Sort menu utama sidebar berdasarkan abjad
+document.addEventListener('DOMContentLoaded', () => {
+  const navList = document.querySelector('.sidebar-nav > ul');
+  const items = Array.from(navList.children);
+
+  // Sort berdasarkan text di <span> atau teks dalam <a>
+  items.sort((a, b) => {
+    const textA = a.querySelector('span')?.textContent.trim().toLowerCase() || '';
+    const textB = b.querySelector('span')?.textContent.trim().toLowerCase() || '';
+    return textA.localeCompare(textB);
+  });
+
+  // Hapus semua, lalu append lagi sesuai urutan
+  items.forEach(item => navList.appendChild(item));
+});
+
   // Toggle sidebar collapse
   const sidebar = document.getElementById('sidebar');
   const toggleBtn = document.getElementById('sidebarToggle');
