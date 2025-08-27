@@ -1,7 +1,7 @@
 <aside class="sidebar" id="sidebar">
   <!-- Header -->
   <div class="sidebar-header">
-    <span>E-BAGOR</span>
+    <span>BAGOR</span>
     <button class="sidebar-toggle" id="sidebarToggle">
       <i class="material-icons">menu</i>
     </button>
@@ -51,8 +51,7 @@
           <i class="material-icons">account_balance</i> <span>Kelembagaan</span>
         </a>
         <ul class="submenu">
-          <li class="submenu-item"><a href="{{ route('kelembagaan.anjab') }}">Analisis Jabatan</a></li>
-          <li class="submenu-item"><a href="{{ route('kelembagaan.abk') }}">Analisis Beban Kerja</a></li>
+          <li class="submenu-item"><a href="{{ route('kelembagaan.anjab') }}"> Analisis Jabatan & Beban Kerja</a></li>
           <li class="submenu-item"><a href="{{ route('kelembagaan.petajab') }}">Peta Jabatan</a></li>
           <li class="submenu-item"><a href="{{ route('kelembagaan.evajab') }}">Evaluasi Jabatan</a></li>
           <li class="submenu-item"><a href="{{ route('kelembagaan.kematangan') }}">Kematangan Kelembagaan</a></li>
