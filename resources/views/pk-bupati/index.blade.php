@@ -1,4 +1,4 @@
-@extends('layouts.app')
+   @extends('layouts.app')
 
 @section('title', 'PK Bupati - E-BAGOR')
 
@@ -27,31 +27,28 @@
     </header>
 
     <!-- Konten Utama -->
-    <main class="flex-1 px-4 md:px-8 py-6">
+    <main class="flex-1 px-4 md:px-8 py-6 bg-[#F8FAFC]">
 
         <!-- Filter Tahun & Semester + Tombol Tambah -->
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 px-4 md:px-6 py-4">
             <div class="flex flex-col md:flex-row items-center gap-4">
-                <!-- Tahun -->
                 <div class="flex items-center gap-3">
                     <label class="font-semibold text-gray-700 text-sm md:text-base">Tahun:</label>
                     <select id="yearFilter" class="py-2 px-3 rounded border border-gray-300 hover:border-primary transition focus:outline-none focus:ring-2 focus:ring-blue-200 text-sm md:text-base">
-                        <option value="2025" {{ $currentYear == '2025' ? 'selected' : '' }}>2025</option>
-                        <option value="2026" {{ $currentYear == '2026' ? 'selected' : '' }}>2026</option>
-                        <option value="2027" {{ $currentYear == '2027' ? 'selected' : '' }}>2027</option>
+                        <option value="2025" {{ (isset($currentYear) && $currentYear == '2025') ? 'selected' : '' }}>2025</option>
+                        <option value="2026" {{ (isset($currentYear) && $currentYear == '2026') ? 'selected' : '' }}>2026</option>
+                        <option value="2027" {{ (isset($currentYear) && $currentYear == '2027') ? 'selected' : '' }}>2027</option>
                     </select>
                 </div>
-                <!-- Semester -->
                 <div class="flex items-center gap-3">
                     <label class="font-semibold text-gray-700 text-sm md:text-base">Semester:</label>
                     <select id="semesterFilter" class="py-2 px-3 rounded border border-gray-300 hover:border-primary transition focus:outline-none focus:ring-2 focus:ring-blue-200 text-sm md:text-base">
-                        <option value="1" {{ $currentSemester == '1' ? 'selected' : '' }}>I</option>
-                        <option value="2" {{ $currentSemester == '2' ? 'selected' : '' }}>II</option>
+                        <option value="1" {{ (isset($currentSemester) && $currentSemester == '1') ? 'selected' : '' }}>I</option>
+                        <option value="2" {{ (isset($currentSemester) && $currentSemester == '2') ? 'selected' : '' }}>II</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Tombol Tambah Data -->
             <button class="flex items-center gap-2 bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm md:text-base"
                 onclick="openModal('addModal')">
                 <i class="fas fa-plus"></i>
@@ -59,7 +56,7 @@
             </button>
         </div>
 
-        <!-- Table Container -->
+        <!-- Table -->
         <div class="bg-white shadow rounded-lg mt-6 overflow-hidden border border-gray-200">
             <div class="overflow-x-auto">
                 <table class="w-full">
@@ -83,32 +80,16 @@
                         @foreach($pkData as $index => $item)
                         <tr class="hover:bg-blue-50 transition-colors">
                             <td class="py-3 px-4 font-medium text-gray-900 text-sm">{{ $item['no'] }}</td>
-                            <td class="py-3 px-4 text-sm max-w-xs">
-                                <div class="truncate" title="{{ $item['sasaranStrategis'] }}">{{ $item['sasaranStrategis'] }}</div>
-                            </td>
-                            <td class="py-3 px-4 text-sm max-w-xs">
-                                <div class="truncate" title="{{ $item['indikatorKinerja'] }}">{{ $item['indikatorKinerja'] }}</div>
-                            </td>
-                            <td class="py-3 px-4 text-sm">
-                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">{{ $item['target2025'] }}</span>
-                            </td>
-                            <td class="py-3 px-4 text-sm">
-                                <span class="font-semibold">{{ $item['satuan'] }}</span>
-                            </td>
-                            <td class="py-3 px-4 text-sm max-w-xs">
-                                <div class="truncate" title="{{ $item['penanggungJawab'] }}">{{ $item['penanggungJawab'] }}</div>
-                            </td>
+                            <td class="py-3 px-4 text-sm max-w-xs truncate" title="{{ $item['sasaranStrategis'] }}">{{ $item['sasaranStrategis'] }}</td>
+                            <td class="py-3 px-4 text-sm max-w-xs truncate" title="{{ $item['indikatorKinerja'] }}">{{ $item['indikatorKinerja'] }}</td>
+                            <td class="py-3 px-4 text-sm"><span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">{{ $item['target2025'] }}</span></td>
+                            <td class="py-3 px-4 text-sm font-semibold">{{ $item['satuan'] }}</td>
+                            <td class="py-3 px-4 text-sm max-w-xs truncate" title="{{ $item['penanggungJawab'] }}">{{ $item['penanggungJawab'] }}</td>
                             <td class="py-3 px-4">
                                 <div class="flex justify-center gap-1">
-                                    <button class="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-200" title="Lihat" onclick="showDetail({{ $index }})">
-                                        <i class="fas fa-eye text-sm"></i>
-                                    </button>
-                                    <button class="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-200" title="Edit" onclick="editData({{ $index }})">
-                                        <i class="fas fa-edit text-sm"></i>
-                                    </button>
-                                    <button class="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-200" title="Hapus" onclick="deleteData({{ $index }})">
-                                        <i class="fas fa-trash text-sm"></i>
-                                    </button>
+                                    <button class="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors" title="Lihat" onclick="showDetail({{ $index }})"><i class="fas fa-eye text-sm"></i></button>
+                                    <button class="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors" title="Edit" onclick="editData({{ $index }})"><i class="fas fa-edit text-sm"></i></button>
+                                    <button class="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors" title="Hapus" onclick="deleteData({{ $index }})"><i class="fas fa-trash text-sm"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -120,96 +101,38 @@
         </div>
     </main>
 
-    <!-- Modals -->
     @include('components.tambah-modal-pk-bupati')
     @include('components.ubah-modal-pk-bupati')
     @include('components.detail-modal-pk-bupati')
-
-    <!-- Footer -->
+    @include('components.hapus-modal')
     @include('components.footer')
 </div>
 
-<!-- Scripts -->
 <script>
-const pkData = @json($pkData);
-let currentYear = '{{ $currentYear }}';
-let currentSemester = '{{ $currentSemester }}';
+const pkData = {!! isset($pkData) ? json_encode($pkData) : '[]' !!};
+const indikatorData = {!! isset($indikatorData) ? json_encode($indikatorData) : '{}' !!};
+let currentYear = '{{ isset($currentYear) ? $currentYear : "2025" }}';
+let currentSemester = '{{ isset($currentSemester) ? $currentSemester : "1" }}';
 
-// Filter tahun & semester
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("yearFilter").addEventListener("change", function() {
+    const yearFilter = document.getElementById("yearFilter");
+    const semesterFilter = document.getElementById("semesterFilter");
+    yearFilter?.addEventListener("change", function() {
         window.location.href = `?year=${this.value}&semester=${currentSemester}`;
     });
-    document.getElementById("semesterFilter").addEventListener("change", function() {
+    semesterFilter?.addEventListener("change", function() {
         window.location.href = `?year=${currentYear}&semester=${this.value}`;
     });
 });
 
-// Modal open/close
-function openModal(id) { document.getElementById(id)?.classList.remove('hidden'); document.body.style.overflow='hidden'; }
-function closeModal(id) { document.getElementById(id)?.classList.add('hidden'); document.body.style.overflow='auto'; }
+function openModal(id){document.getElementById(id)?.classList.remove('hidden'); document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id)?.classList.add('hidden'); document.body.style.overflow='auto';}
 
-// Show detail modal
-function showDetail(index) {
-    const data = pkData[index];
-    if (!data) return;
-    openDetailModalWithData(data);
-}
+function editData(index){ if(pkData[index]) { populateEditForm(index); openModal('editModal'); } }
+function populateEditForm(index){ const data=pkData[index]; if(!data) return; const set=(id,val)=>{const e=document.getElementById(id); if(e)e.value=val??'';}; set('editId',index); set('editNo',data.no); set('editTarget2025',data.target2025); set('editSatuan',data.satuan); set('editProgram',data.program); set('editAnalisisEvaluasi',data.analisisEvaluasi); set('editPenanggungJawab',data.penanggungJawab); for(let i=1;i<=4;i++){ set('editTargetTW'+i,data['targetTW'+i]); set('editRealisasiTW'+i,data['realisasiTW'+i]); set('editPaguAnggaranTW'+i,data['paguAnggaranTW'+i]); set('editRealisasiAnggaranTW'+i,data['realisasiAnggaranTW'+i]); } }
 
-// Open detail modal with data
-function openDetailModalWithData(data) {
-    let detailHTML = `
-        <div class="bg-gray-50 rounded-lg p-4 mb-5">
-            <h3 class="text-primary text-md font-semibold mb-4">Informasi Dasar</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div><label class="block font-medium mb-1">NO</label><div class="p-2 border-b border-gray-200">${data.no}</div></div>
-                <div><label class="block font-medium mb-1">Tahun</label><div class="p-2 border-b border-gray-200">2025</div></div>
-            </div>
-            <div class="mb-4"><label class="block font-medium mb-1">Sasaran Strategis</label><div class="p-2 border-b border-gray-200">${data.sasaranStrategis}</div></div>
-            <div class="mb-4"><label class="block font-medium mb-1">Indikator Kinerja</label><div class="p-2 border-b border-gray-200">${data.indikatorKinerja}</div></div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div><label class="block font-medium mb-1">Target 2025</label><div class="p-2 border-b border-gray-200">${data.target2025}</div></div>
-                <div><label class="block font-medium mb-1">Satuan</label><div class="p-2 border-b border-gray-200">${data.satuan}</div></div>
-            </div>
-            <div class="mb-4"><label class="block font-medium mb-1">Program</label><div class="p-2 border-b border-gray-200">${data.program || "-"}</div></div>
-            <div class="mb-4"><label class="block font-medium mb-1">Penjelasan Analisis dan Evaluasi</label><div class="p-2 border-b border-gray-200">${data.analisisEvaluasi || "-"}</div></div>
-            <div class="mb-4"><label class="block font-medium mb-1">Penanggung Jawab</label><div class="p-2 border-b border-gray-200">${data.penanggungJawab}</div></div>
-        </div>
+function showDetail(index){ const data=pkData[index]; if(!data) return; const set=(id,text)=>{const e=document.getElementById(id); if(e)e.textContent=text??'-';}; set('detailNo',data.no); set('detailTahun',data.tahun??currentYear); set('detailSasaranStrategis',data.sasaranStrategis); set('detailIndikatorKinerja',data.indikatorKinerja); set('detailTarget2025',data.target2025); set('detailSatuan',data.satuan); set('detailProgram',data.program); set('detailAnalisisEvaluasi',data.analisisEvaluasi); set('detailPenanggungJawab',data.penanggungJawab); for(let i=1;i<=4;i++){ set('detailTargetTW'+i,data['targetTW'+i]); set('detailRealisasiTW'+i,data['realisasiTW'+i]); set('detailPaguTW'+i,data['paguAnggaranTW'+i]); set('detailRealisasiAnggaranTW'+i,data['realisasiAnggaranTW'+i]); } openModal('detailModal'); }
 
-        <div class="bg-gray-50 rounded-lg p-4 mb-5">
-            <h3 class="text-primary text-md font-semibold mb-4">Target dan Realisasi per Triwulan</h3>
-            <div class="flex gap-2 mb-4">
-                <button type="button" class="tablinks active" onclick="openDetailTab(event, 'detailTriwulan1')">Triwulan I</button>
-                <button type="button" class="tablinks" onclick="openDetailTab(event, 'detailTriwulan2')">Triwulan II</button>
-                <button type="button" class="tablinks" onclick="openDetailTab(event, 'detailTriwulan3')">Triwulan III</button>
-                <button type="button" class="tablinks" onclick="openDetailTab(event, 'detailTriwulan4')">Triwulan IV</button>
-            </div>
-
-            ${['1','2','3','4'].map(i => `
-                <div id="detailTriwulan${i}" class="tabcontent" style="display: ${i==1 ? 'block':'none'};">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div><label class="block font-medium mb-1">Target</label><div class="p-2 border-b border-gray-200">${data['targetTW'+i] || '-'}</div></div>
-                        <div><label class="block font-medium mb-1">Realisasi</label><div class="p-2 border-b border-gray-200">${data['realisasiTW'+i] || '-'}</div></div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div><label class="block font-medium mb-1">Pagu Anggaran</label><div class="p-2 border-b border-gray-200">${data['paguAnggaranTW'+i] || '-'}</div></div>
-                        <div><label class="block font-medium mb-1">Realisasi Anggaran</label><div class="p-2 border-b border-gray-200">${data['realisasiAnggaranTW'+i] || '-'}</div></div>
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-    `;
-
-    document.getElementById("detailContent").innerHTML = detailHTML;
-    openModal("detailModal");
-}
-
-// Tabs
-function openDetailTab(evt, tabId) {
-    document.querySelectorAll('#detailContent .tabcontent').forEach(tc => tc.style.display = 'none');
-    document.querySelectorAll('#detailContent .tablinks').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(tabId).style.display = 'block';
-    evt.currentTarget.classList.add('active');
-}
+function deleteData(index){ const data=pkData[index]; if(!data) return; openModal('hapusModal'); const e=document.getElementById('hapusItem'); if(e)e.textContent=`No ${data.no} - ${data.sasaranStrategis}`; }
 </script>
 @endsection

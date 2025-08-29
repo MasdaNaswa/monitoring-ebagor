@@ -30,7 +30,7 @@
         </header>
 
         <!-- Konten Utama -->
-        <main class="flex-1 px-4 md:px-8 py-6">
+        <main class="flex-1 px-4 md:px-8 py-6 bg-[#F8FAFC]">
             <div class="flex flex-col md:flex-row justify-between items-center px-4 md:px-6 py-4 gap-4 md:gap-0">
                 <div class="flex items-center gap-3">
                     <label class="font-semibold text-gray-700 text-sm md:text-base">Tahun:</label>
