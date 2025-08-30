@@ -5,9 +5,6 @@
 @section('content')
 <div class="flex min-h-screen">
 
-    <!-- SIDEBAR -->
-    @include('components.sidebar') <!-- pastikan id="sidebar" di sidebar -->
-
     <!-- MAIN CONTENT -->
     <div class="flex-1 flex flex-col transition-all duration-300" id="mainContent">
 
@@ -261,27 +258,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.querySelector('.skm-options-modal').addEventListener('click', e => { if(e.target===modal.querySelector('.skm-options-modal')) document.body.removeChild(modal); });
     }
 
-    // ===== SIDEBAR TOGGLE =====
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('mainContent');
-    const toggleBtn = document.getElementById('sidebarToggle');
-
-    toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('translate-x-[-100%]');
-        if (sidebar.classList.contains('translate-x-[-100%]')) {
-            mainContent.style.marginLeft = '0';
-        } else {
-            mainContent.style.marginLeft = '16rem'; // w-64 = 16rem
-        }
-    });
-
-    // Reset sidebar saat resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768) {
-            sidebar.classList.remove('translate-x-[-100%]');
-            mainContent.style.marginLeft = '16rem';
-        }
-    });
 });
 </script>
 @endsection
