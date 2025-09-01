@@ -10,7 +10,6 @@
     <div class="welcome-container">
       <div class="welcome-text">
         <h2>Selamat Datang, Diskominfo Kab. Karimun</h2>
-        <p>Anda login sebagai <b>OPD</b> dengan akses ke modul <b>RB General</b> dan <b>RB Tematik</b>.</p>
       </div>
     </div>
 

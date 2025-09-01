@@ -1,16 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Analisis Jabatan & Beban Kerja')
+@section('title', 'Evaluasi Jabatan')
 
 @section('content')
+<div class="min-h-screen bg-[#F8FAFC] flex flex-col">
 
 
-     <!-- Header -->
+    <!-- Header -->
         <header class="bg-white shadow sticky top-0 z-30">
             <div class="flex justify-between items-center py-4 px-6 md:px-8">
                 <h1 class="text-xl md:text-2xl font-semibold flex items-center gap-2">
-                     <i class="fas fa-file-alt text-blue-600"></i>
-                    <span class="hidden sm:inline">  Analisis Jabatan & Beban Kerja</span>
+                     <i class="fas fa-clipboard-check text-blue-600"></i>
+                    <span class="hidden sm:inline"> Evaluasi Jabatan</span>
                 </h1>
                 <div class="relative group">
                     <button
@@ -30,12 +31,12 @@
         </header>
 
     {{-- Content --}}
-    <div class="p-6 space-y-6 flex-1 bg-[#F8FAFC]">
+    <div class="p-6 space-y-6 flex-1">
 
         {{-- Upload Section --}}
         <div class="bg-white p-6 rounded-lg shadow">
             <h2 class="text-lg font-semibold flex items-center gap-2 border-b pb-2 mb-4">
-                <i class="fas fa-cloud-upload-alt text-blue-600"></i> Unggah Dokumen Analisis Jabatan & Beban Kerja
+                <i class="fas fa-cloud-upload-alt text-blue-600"></i> Unggah Dokumen Evaluasi Jabatan
             </h2>
 
             <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded p-12 text-center cursor-pointer hover:border-blue-600 hover:bg-blue-50 transition">
@@ -60,7 +61,7 @@
                             <i class="fas fa-file-pdf"></i>
                         </div>
                         <div>
-                            <div class="font-medium">Analisis_Jabatan_2023.pdf</div>
+                            <div class="font-medium">Evaluasi_Jabatan_2023.pdf</div>
                             <div class="text-sm text-gray-500">Diunggah pada 12 Oktober 2023 - 12.5 MB</div>
                         </div>
                     </div>
@@ -77,7 +78,7 @@
                             <i class="fas fa-file-excel"></i>
                         </div>
                         <div>
-                            <div class="font-medium">Beban_Kerja_Q3.xlsx</div>
+                            <div class="font-medium">Evaluasi_Jabatan_Q3.xlsx</div>
                             <div class="text-sm text-gray-500">Diunggah pada 5 Oktober 2023 - 8.2 MB</div>
                         </div>
                     </div>
@@ -94,7 +95,7 @@
                             <i class="fas fa-file-word"></i>
                         </div>
                         <div>
-                            <div class="font-medium">Laporan_Analisis_Jabatan.docx</div>
+                            <div class="font-medium">Laporan_Evaluasi_Jabatan.docx</div>
                             <div class="text-sm text-gray-500">Diunggah pada 28 September 2023 - 5.7 MB</div>
                         </div>
                     </div>

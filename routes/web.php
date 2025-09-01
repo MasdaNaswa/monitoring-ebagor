@@ -5,10 +5,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RBGeneralController;
 use App\Http\Controllers\RBTematikController;
 use App\Http\Controllers\PKBupatiController;
-use App\Http\Controllers\KelembagaanController;
+use App\Http\Controllers\AnjabdanABKController; 
+use App\Http\Controllers\PetajabController; 
+use App\Http\Controllers\KematanganKelembagaanController; 
+use App\Http\Controllers\EvajabController; 
 use App\Http\Controllers\PelayananPublikController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use function PHPUnit\Framework\callback;
 
 
 
@@ -38,14 +42,27 @@ Route::prefix('pk-bupati')->group(function () {
     Route::get('/', [PKBupatiController::class, 'index'])->name('pk-bupati.index');
 });
 
-// Kelembagaan Routes
-Route::prefix('kelembagaan')->group(function () {
-    Route::get('/anjab', [KelembagaanController::class, 'anjab'])->name('kelembagaan.anjab');
-    Route::get('/abk', [KelembagaanController::class, 'abk'])->name('kelembagaan.abk');
-    Route::get('/petajab', [KelembagaanController::class, 'petajab'])->name('kelembagaan.petajab');
-    Route::get('/evajab', [KelembagaanController::class, 'evajab'])->name('kelembagaan.evajab');
-    Route::get('/kematangan', [KelembagaanController::class, 'kematangan'])->name('kelembagaan.kematangan');
+// Analisis Jabatan dan Analisis Beban Kerja Routes
+Route::prefix('anjab-abk')->group(function () {
+    Route::get('/', [AnjabdanABKController::class, 'index'])->name('anjab-abk.index');
 });
+
+// Peta Jabatan Route
+Route::prefix('petajab')->group(function () {
+    Route::get('/', [PetajabController::class, 'index'])->name('petajab.index');
+});
+
+
+// Evaluasi Jabatan Route
+Route::prefix('evajab')->group(function () {
+    Route::get('/', [EvajabController::class, 'index'])->name('evajab.index');
+});
+
+// Kematangan Kelembagaan Route
+Route::prefix('kematangan')->group(function () {
+    Route::get('/', [KematanganKelembagaanController::class, 'index'])->name('kematangan.index');
+});
+
 
 // Pelayanan Publik Routes
 Route::prefix('pelayanan-publik')->group(function () {

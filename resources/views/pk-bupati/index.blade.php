@@ -1,6 +1,6 @@
    @extends('layouts.app')
 
-@section('title', 'PK Bupati - E-BAGOR')
+@section('title', 'BAGOR')
 
 @section('content')
 <div class="flex flex-col min-h-screen">
