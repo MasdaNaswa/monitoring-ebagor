@@ -1,7 +1,7 @@
 <aside class="sidebar" id="sidebar">
   <!-- Header -->
   <div class="sidebar-header">
-    <span>OPD</span>
+    <span>Admin RB</span>
     <button class="sidebar-toggle" id="sidebarToggle">
       <i class="material-icons">menu</i>
     </button>
@@ -10,37 +10,14 @@
   <!-- Navigation -->
   <nav class="sidebar-nav">
     <ul>
+      <!-- Dashboard -->
       <li class="nav-item">
-        <a href="{{ route('dashboard') }}">
+        <a href="{{ route('adminrb.dashboard') }}">
           <i class="material-icons">dashboard</i> <span>Dashboard</span>
         </a>
       </li>
 
-
-      <!-- Kelembagaan -->
-      <li class="nav-item has-submenu">
-        <a href="#">
-          <i class="material-icons">account_balance</i> <span>Kelembagaan</span>
-        </a>
-        <ul class="submenu">
-          <li class="submenu-item"><a href="{{ route('anjab-abk.index') }}"> Anjab & ABK</a></li>
-          <li class="submenu-item"><a href="{{ route('petajab.index') }}">Peta Jabatan</a></li>
-          <li class="submenu-item"><a href="{{ route('evajab.index') }}">Evaluasi Jabatan</a></li>
-          <li class="submenu-item"><a href="{{ route('kematangan.index') }}">Kematangan Kelembagaan</a></li>
-        </ul>
-      </li>
-
-      <!-- Pelayanan Publik -->
-      <li class="nav-item has-submenu">
-        <a href="#">
-          <i class="material-icons">miscellaneous_services</i> <span>Pelayanan Publik</span>
-        </a>
-        <ul class="submenu">
-          <li class="submenu-item"><a href="{{ route('pelayanan-publik.index') }}">Unggah Dokumen</a></li>
-        </ul>
-      </li>
-
-       <!-- RB -->
+      <!-- RB -->
       <li class="nav-item has-submenu">
         <a href="#">
           <i class="material-icons">assessment</i> <span>RB</span>
@@ -52,53 +29,86 @@
               <span>RB Berdampak</span>
             </a>
             <ul class="submenu">
-              <li class="submenu-item"><a href="{{ route('rb-general.index') }}">RB General</a></li>
-              <li class="submenu-item"><a href="{{ route('rb-tematik.index') }}">RB Tematik</a></li>
+              <li class="submenu-item"><a href="{{ route('adminrb.rb-general.index') }}">RB General</a></li>
+              <li class="submenu-item"><a href="{{ route('adminrb.rb-tematik.index') }}">RB Tematik</a></li>
             </ul>
           </li>
-
           <!-- SAKIP -->
           <li class="submenu-item has-submenu">
             <a href="#">
               <span>SAKIP</span>
             </a>
             <ul class="submenu">
-              <li class="submenu-item"><a href="{{ route('pk-bupati.index') }}">PK Bupati</a></li>
+              <li class="submenu-item"><a href="{{ route('adminrb.pk-bupati.index') }}">PK Bupati</a></li>
             </ul>
           </li>
         </ul>
       </li>
+
+      <!-- Kelola Akun -->
+      <li class="nav-item">
+        <a href="{{ route('adminrb.kelola-akun.index') }}">
+          <i class="material-icons">manage_accounts</i> <span>Kelola Akun</span>
+        </a>
+      </li>
+
+      <!-- Kontrol Akses RB -->
+      <li class="nav-item">
+        <a href="{{ route('adminrb.aksesrb.index') }}">
+          <i class="fas fa-lock text-blue-600 text-[20px]"></i> <span>Kontrol Akses RB</span>
+        </a>
+      </li>
+
+      <!-- Kelola Sasaran & Strategi-->
+      <li class="nav-item">
+        <a href="{{ route('adminrb.kelola-data.index') }}">
+          <i class="fas fa-bullseye text-blue-600 text-[20px]"></i><span>Kelola Data</span>
+        </a>
+      </li>
+
+
+      <ul class="submenu">
+        <!-- RB Berdampak -->
+        <li class="submenu-item has-submenu">
+          <a href="#">
+            <span>RB Berdampak</span>
+          </a>
+          <ul class="submenu">
+            <li class="submenu-item"><a href="{{ route('adminrb.rb-general.index') }}">RB General</a></li>
+            <li class="submenu-item"><a href="{{ route('adminrb.rb-tematik.index') }}">RB Tematik</a></li>
+          </ul>
+        </li>
+      </ul>
     </ul>
   </nav>
 
   <!-- Footer Logout -->
-<!-- Footer Logout -->
-<div class="sidebar-footer">
+  <div class="sidebar-footer">
     <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit" class="logout-btn">
-            <i class="material-icons">logout</i> <span>Keluar</span>
-        </button>
+      @csrf
+      <button type="submit" class="logout-btn">
+        <i class="material-icons">logout</i> <span>Keluar</span>
+      </button>
     </form>
-</div>
+  </div>
 </aside>
 
 <script>
   // Sort menu utama sidebar berdasarkan abjad
-document.addEventListener('DOMContentLoaded', () => {
-  const navList = document.querySelector('.sidebar-nav > ul');
-  const items = Array.from(navList.children);
+  document.addEventListener('DOMContentLoaded', () => {
+    const navList = document.querySelector('.sidebar-nav > ul');
+    const items = Array.from(navList.children);
 
-  // Sort berdasarkan text di <span> atau teks dalam <a>
-  items.sort((a, b) => {
-    const textA = a.querySelector('span')?.textContent.trim().toLowerCase() || '';
-    const textB = b.querySelector('span')?.textContent.trim().toLowerCase() || '';
-    return textA.localeCompare(textB);
+    // Sort berdasarkan text di <span> atau teks dalam <a>
+    items.sort((a, b) => {
+      const textA = a.querySelector('span')?.textContent.trim().toLowerCase() || '';
+      const textB = b.querySelector('span')?.textContent.trim().toLowerCase() || '';
+      return textA.localeCompare(textB);
+    });
+
+    // Hapus semua, lalu append lagi sesuai urutan
+    items.forEach(item => navList.appendChild(item));
   });
-
-  // Hapus semua, lalu append lagi sesuai urutan
-  items.forEach(item => navList.appendChild(item));
-});
 
   // Toggle sidebar collapse
   const sidebar = document.getElementById('sidebar');
@@ -108,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('collapsed');
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-    
+
     // Update toggle icon
     const icon = toggleBtn.querySelector('i');
     if (sidebar.classList.contains('collapsed')) {
@@ -130,10 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle submenu dengan auto-close lainnya
   document.querySelectorAll('.has-submenu > a').forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function (e) {
       e.preventDefault();
       const parent = this.parentElement;
-      
+
       // Tutup submenu terbuka lainnya di level yang sama
       if (parent.parentElement) {
         const siblings = parent.parentElement.querySelectorAll('.has-submenu');
@@ -143,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       }
-      
+
       parent.classList.toggle('active');
     });
   });
