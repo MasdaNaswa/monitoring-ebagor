@@ -4,64 +4,91 @@ namespace App\Http\Controllers\AdminPelayananPublik;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Template_Laporan;
+use App\Models\Kategori;
+use Illuminate\Support\Facades\Storage;
 
 class TemplateController extends Controller
 {
+    // Menampilkan semua template dan kategori
     public function index()
     {
-        // Data dummy kategori
-        $kategories = [
-            ['id' => 1, 'nama_kategori' => 'Kategori A'],
-            ['id' => 2, 'nama_kategori' => 'Kategori B'],
-            ['id' => 3, 'nama_kategori' => 'Kategori C'],
-        ];
-
-        // Data dummy template
-        $templates = [
-            [
-                'id' => 1,
-                'nama_template' => 'Template 1',
-                'kategori_id' => 1,
-                'kategori' => ['id' => 1, 'nama_kategori' => 'Kategori A'],
-                'file' => 'storage/templates/template1.pdf'
-            ],
-            [
-                'id' => 2,
-                'nama_template' => 'Template 2',
-                'kategori_id' => 2,
-                'kategori' => ['id' => 2, 'nama_kategori' => 'Kategori B'],
-                'file' => 'storage/templates/template2.docx'
-            ],
-            [
-                'id' => 3,
-                'nama_template' => 'Template 3',
-                'kategori_id' => 3,
-                'kategori' => ['id' => 3, 'nama_kategori' => 'Kategori C'],
-                'file' => 'storage/templates/template3.xlsx'
-            ],
-        ];
+        $kategories = Kategori::all();
+        $templates = Template_Laporan::with('kategori')->get();
 
         return view('adminpelayananpublik.template.index', compact('templates', 'kategories'));
     }
 
+    // Simpan template baru
     public function store(Request $request)
     {
-        // Kalau pakai dummy, kita bisa langsung redirect
+        $request->validate([
+            'nama_template' => 'required|string|max:255',
+            'id_kategori' => 'required|exists:kategori,id_kategori',
+            'file' => 'required|file|mimes:pdf,doc,docx,xlsx,xls'
+        ]);
+
+        $file = $request->file('file');
+        $originalName = $file->getClientOriginalName(); // Nama asli file
+        $filePath = $file->storeAs('templates', $originalName, 'public'); // Simpan di storage/app/public/templates/
+
+        Template_Laporan::create([
+            'nama_template' => $request->nama_template,
+            'id_kategori' => $request->id_kategori,
+            'file_path' => $filePath
+        ]);
+
         return redirect()->route('adminpelayananpublik.template.index')
-            ->with('success', 'Template berhasil ditambahkan (dummy).');
+                         ->with('success', 'Template berhasil ditambahkan.');
     }
 
+    // Update template
     public function update(Request $request, $id)
     {
-        // Dummy: langsung redirect
+        $template = Template_Laporan::findOrFail($id);
+
+        $request->validate([
+            'nama_template' => 'required|string|max:255',
+            'id_kategori' => 'required|exists:kategori,id_kategori',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls'
+        ]);
+
+        if ($request->hasFile('file')) {
+            // Hapus file lama jika ada
+            if (Storage::disk('public')->exists($template->file_path)) {
+                Storage::disk('public')->delete($template->file_path);
+            }
+
+            $file = $request->file('file');
+            $originalName = $file->getClientOriginalName();
+            $filePath = $file->storeAs('templates', $originalName, 'public');
+            $template->file_path = $filePath;
+        }
+
+        $template->nama_template = $request->nama_template;
+        $template->id_kategori = $request->id_kategori;
+        $template->save();
+
         return redirect()->route('adminpelayananpublik.template.index')
-            ->with('success', "Template ID $id berhasil diperbarui (dummy).");
+                         ->with('success', "Template ID $id berhasil diperbarui.");
     }
 
+    // Hapus template
     public function destroy($id)
     {
-        // Dummy: langsung redirect
+        $template = Template_Laporan::findOrFail($id);
+
+        // Hapus file dari storage
+        if (Storage::disk('public')->exists($template->file_path)) {
+            Storage::disk('public')->delete($template->file_path);
+        }
+
+        $template->delete();
+
         return redirect()->route('adminpelayananpublik.template.index')
-            ->with('success', "Template ID $id berhasil dihapus (dummy).");
+                         ->with('success', "Template ID $id berhasil dihapus.");
     }
+
+    // Optional: Unduh template langsung (jika ingin route download khusus)
+    
 }

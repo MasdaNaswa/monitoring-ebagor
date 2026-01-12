@@ -1,4 +1,4 @@
-<div id="addOPDModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999] p-4">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999] p-4">
   <div class="bg-white rounded-lg shadow-xl w-full max-w-md overflow-y-auto">
     <div class="flex justify-between items-center bg-green-600 text-white p-4 rounded-t-lg">
       <h3 class="text-lg font-semibold">Tambah Akun OPD</h3>
@@ -15,7 +15,11 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-600">Password</label>
-        <input type="password" name="password" class="w-full p-2 border rounded-md" required>
+        <input type="password" name="password" class="w-full p-2 border rounded-md" 
+               placeholder="Huruf besar, huruf kecil, angka, simbol" required>
+        <p class="text-xs text-gray-500 mt-1">
+          Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.
+        </p>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-600">Role</label>
@@ -24,7 +28,7 @@
         </select>
       </div>
       <div class="flex justify-end gap-2">
-        <button type="button" onclick="closeModal('addOPDModal')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-gray-600">Batal</button>
+        <button type="button" onclick="closeModal('tambahModal')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-gray-600">Batal</button>
         <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Tambah</button>
       </div>
     </form>

@@ -34,7 +34,7 @@
         <!-- Google Form -->
         <li class="nav-item">
           <a href="{{ route('adminkelembagaan.kematangan-kelembagaan.index') }}">
-            <i class="material-icons">category</i> <span>Google Form</span>
+            <i class="material-icons">category</i> <span>Hasil Survei</span>
           </a>
         </li>
 

@@ -3,18 +3,15 @@
 namespace App\Http\Controllers\AdminPelayananPublik;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
-    private $kategories = [
-        ['id' => 1, 'nama_kategori' => 'Pelayanan Publik'],
-        ['id' => 2, 'nama_kategori' => 'Pengaduan Masyarakat'],
-    ];
-
     public function index()
     {
-        $kategories = session('kategories', $this->kategories);
+        // orderBy kolom primary key yang benar
+        $kategories = Kategori::orderBy('id_kategori', 'asc')->get();
         return view('adminpelayananpublik.kategori.index', compact('kategories'));
     }
 
@@ -24,43 +21,37 @@ class KategoriController extends Controller
             'nama_kategori' => 'required|string|max:255',
         ]);
 
-        $kategories = session('kategories', $this->kategories);
-        $newKategori = [
-            'id' => count($kategories) + 1,
+        Kategori::create([
             'nama_kategori' => $request->nama_kategori,
-        ];
+        ]);
 
-        $kategories[] = $newKategori;
-        session(['kategories' => $kategories]);
-
-        return response()->json(['message' => 'Kategori berhasil ditambahkan']);
+        // redirect ke halaman index
+        return redirect()->route('adminpelayananpublik.kategori.index')
+            ->with('success', 'Kategori berhasil ditambahkan');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_kategori)
     {
         $request->validate([
             'nama_kategori' => 'required|string|max:255',
         ]);
 
-        $kategories = session('kategories', $this->kategories);
+        $kategori = Kategori::findOrFail($id_kategori);
+        $kategori->update([
+            'nama_kategori' => $request->nama_kategori,
+        ]);
 
-        foreach ($kategories as &$kategori) {
-            if ($kategori['id'] == $id) {
-                $kategori['nama_kategori'] = $request->nama_kategori;
-            }
-        }
-
-        session(['kategories' => $kategories]);
-
-        return response()->json(['message' => 'Kategori berhasil diperbarui']);
+        return redirect()->route('adminpelayananpublik.kategori.index')
+            ->with('success', 'Kategori berhasil diperbarui');
     }
 
-    public function destroy($id)
+    public function destroy($id_kategori)
     {
-        $kategories = session('kategories', $this->kategories);
-        $kategories = array_values(array_filter($kategories, fn($kategori) => $kategori['id'] != $id));
-        session(['kategories' => $kategories]);
+        $kategori = Kategori::findOrFail($id_kategori);
+        $kategori->delete();
 
-        return response()->json(['message' => 'Kategori berhasil dihapus']);
+        return redirect()->route('adminpelayananpublik.kategori.index')
+            ->with('success', 'Kategori berhasil dihapus');
     }
+
 }

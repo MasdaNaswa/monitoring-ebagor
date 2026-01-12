@@ -9,7 +9,7 @@
     <header class="bg-white shadow sticky top-0 z-30">
         <div class="flex justify-between items-center py-4 px-6 md:px-8">
             <h1 class="text-xl md:text-2xl font-semibold flex items-center gap-2">
-                <i class="fas fa-file-word text-blue-600"></i>
+                 <i class="material-icons text-blue-600">description</i> 
                 <span class="hidden sm:inline">Kelola Template Laporan</span>
             </h1>
         </div>
@@ -45,23 +45,23 @@
                         @forelse($templates as $template)
                         <tr class="hover:bg-blue-50 transition-colors">
                             <td class="py-3 px-4 text-sm">{{ $loop->iteration }}</td>
-                            <td class="py-3 px-4 text-sm">{{ $template['nama_template'] }}</td>
-                            <td class="py-3 px-4 text-sm">{{ $template['kategori']['nama_kategori'] }}</td>
+                            <td class="py-3 px-4 text-sm">{{ $template->nama_template }}</td>
+                            <td class="py-3 px-4 text-sm">{{ $template->kategori->nama_kategori }}</td>
                             <td class="py-3 px-4 text-center text-sm">
-                                <a href="{{ asset($template['file']) }}" target="_blank" 
+                                <a href="{{ asset($template->file_path) }}" target="_blank" 
                                    class="text-blue-600 hover:underline">
-                                     nama_file
+                                     {{ basename($template->file_path) }}
                                 </a>
                             </td>
                             <td class="py-3 px-4 text-center flex justify-center gap-2">
                                 <!-- Edit -->
-                                <button onclick="openModal('editTemplateModal{{ $template['id'] }}')" 
+                                <button onclick="openModal('editTemplateModal{{ $template->id_template }}')" 
                                     class="p-2 text-yellow-600 hover:bg-yellow-100 rounded-lg">
                                     <i class="fas fa-edit"></i>
                                 </button>
 
                                 <!-- Delete -->
-                                <button onclick="openModal('hapusTemplateModal{{ $template['id'] }}')" 
+                                <button onclick="openModal('hapusTemplateModal{{ $template->id_template }}')" 
                                     class="p-2 text-red-600 hover:bg-red-100 rounded-lg">
                                     <i class="fas fa-trash"></i>
                                 </button>

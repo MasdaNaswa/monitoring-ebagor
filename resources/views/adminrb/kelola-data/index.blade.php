@@ -39,7 +39,7 @@
                 <table class="w-full">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-700 text-xs uppercase tracking-wider border-b">#</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700 text-xs uppercase tracking-wider border-b">No</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-700 text-xs uppercase tracking-wider border-b">Kategori</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-700 text-xs uppercase tracking-wider border-b">Sasaran</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-700 text-xs uppercase tracking-wider border-b">Indikator</th>

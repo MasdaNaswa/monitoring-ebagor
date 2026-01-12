@@ -33,14 +33,15 @@
       <!-- Pelayanan Publik -->
       <li class="nav-item has-submenu">
         <a href="#">
-          <i class="material-icons">miscellaneous_services</i> <span>Pelayanan Publik</span>
+          <i class="material-icons">description</i> <span>Pelayanan Publik</span>
         </a>
         <ul class="submenu">
           <li class="submenu-item"><a href="{{ route('pelayanan-publik.index') }}">Unggah Dokumen</a></li>
         </ul>
       </li>
 
-       <!-- RB -->
+
+      <!-- RB -->
       <li class="nav-item has-submenu">
         <a href="#">
           <i class="material-icons">assessment</i> <span>RB</span>
@@ -72,33 +73,33 @@
   </nav>
 
   <!-- Footer Logout -->
-<!-- Footer Logout -->
-<div class="sidebar-footer">
+  <!-- Footer Logout -->
+  <div class="sidebar-footer">
     <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit" class="logout-btn">
-            <i class="material-icons">logout</i> <span>Keluar</span>
-        </button>
+      @csrf
+      <button type="submit" class="logout-btn">
+        <i class="material-icons">logout</i> <span>Keluar</span>
+      </button>
     </form>
-</div>
+  </div>
 </aside>
 
 <script>
   // Sort menu utama sidebar berdasarkan abjad
-document.addEventListener('DOMContentLoaded', () => {
-  const navList = document.querySelector('.sidebar-nav > ul');
-  const items = Array.from(navList.children);
+  document.addEventListener('DOMContentLoaded', () => {
+    const navList = document.querySelector('.sidebar-nav > ul');
+    const items = Array.from(navList.children);
 
-  // Sort berdasarkan text di <span> atau teks dalam <a>
-  items.sort((a, b) => {
-    const textA = a.querySelector('span')?.textContent.trim().toLowerCase() || '';
-    const textB = b.querySelector('span')?.textContent.trim().toLowerCase() || '';
-    return textA.localeCompare(textB);
+    // Sort berdasarkan text di <span> atau teks dalam <a>
+    items.sort((a, b) => {
+      const textA = a.querySelector('span')?.textContent.trim().toLowerCase() || '';
+      const textB = b.querySelector('span')?.textContent.trim().toLowerCase() || '';
+      return textA.localeCompare(textB);
+    });
+
+    // Hapus semua, lalu append lagi sesuai urutan
+    items.forEach(item => navList.appendChild(item));
   });
-
-  // Hapus semua, lalu append lagi sesuai urutan
-  items.forEach(item => navList.appendChild(item));
-});
 
   // Toggle sidebar collapse
   const sidebar = document.getElementById('sidebar');
@@ -108,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('collapsed');
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-    
+
     // Update toggle icon
     const icon = toggleBtn.querySelector('i');
     if (sidebar.classList.contains('collapsed')) {
@@ -130,10 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle submenu dengan auto-close lainnya
   document.querySelectorAll('.has-submenu > a').forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function (e) {
       e.preventDefault();
       const parent = this.parentElement;
-      
+
       // Tutup submenu terbuka lainnya di level yang sama
       if (parent.parentElement) {
         const siblings = parent.parentElement.querySelectorAll('.has-submenu');
@@ -143,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       }
-      
+
       parent.classList.toggle('active');
     });
   });

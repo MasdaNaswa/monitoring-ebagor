@@ -111,7 +111,7 @@
         </div>
     </main>
 
-    @include('components.admin.rb.detail-modal-pk-bupati')
+    @include('components.adminrb.detail-modal-pk-bupati')
     @include('components.adminrb.hapus-modal')
      @include('components.adminrb.unduh-modal')
      

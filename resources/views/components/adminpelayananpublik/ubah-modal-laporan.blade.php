@@ -1,50 +1,77 @@
-<div id="editModal{{ $laporan['id'] }}" 
-     class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-[9999] transition-opacity duration-300">
-    
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative transform transition-all duration-300 scale-95">
+<div id="editModal{{ $laporan['id_laporan'] }}"
+    class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-4 py-6">
+
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
 
         <!-- Header -->
-        <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 text-left">
-            <i class="fas fa-exchange-alt text-blue-600"></i>
-            Ubah Status & Catatan
-        </h2>
+        <div class="flex justify-between items-center bg-green-50 px-6 py-4 border-b border-gray-200">
+            <h5 class="text-lg font-semibold text-green-600">
+                <i class="fas fa-edit"></i> Update Status & Catatan
+            </h5>
+        </div>
 
-        <!-- Form status + catatan -->
-        <form action="{{ route('adminpelayananpublik.laporan.update', $laporan['id']) }}" 
-              method="POST" class="space-y-5 text-left">
+        <!-- Form -->
+        <form action="{{ route('adminpelayananpublik.laporan.update', $laporan['id_laporan']) }}" method="POST"
+            class="px-6 py-4 space-y-5">
             @csrf
-            @method('PUT')
 
             <!-- Status -->
-            <div class="text-left">
-                <label class="block text-sm font-semibold text-gray-700 text-left">Status</label>
-                <select name="status" 
-                        class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-left">
-                    <option value="Menunggu" @selected($laporan['status']=='Menunggu')>Menunggu</option>
-                    <option value="Terverifikasi" @selected($laporan['status']=='Terverifikasi')>Terverifikasi</option>
+            <div class="flex flex-col gap-2 text-left">
+                <label for="status{{ $laporan['id_laporan'] }}" class="text-gray-700 text-sm text-left">Status</label>
+                <select name="status" id="status{{ $laporan['id_laporan'] }}"
+                    class="statusSelect border border-gray-300 rounded p-2 text-sm w-full focus:ring-2 focus:ring-green-400 focus:outline-none text-left"
+                    data-target="catatan{{ $laporan['id_laporan'] }}">
+                    <option value="Diproses" @selected($laporan['status'] == 'Diproses')>Diproses</option>
+                    <option value="Revisi" @selected($laporan['status'] == 'Revisi')>Revisi</option>
+                    <option value="Disetujui" @selected($laporan['status'] == 'Disetujui')>Disetujui</option>
                 </select>
             </div>
 
             <!-- Catatan -->
-            <div class="text-left">
-                <label class="block text-sm font-semibold text-gray-700 text-left">Catatan</label>
-                <textarea name="catatan" rows="3"
-                          class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-left"
-                          placeholder="Tambahkan catatan untuk OPD...">{{ old('catatan', $laporan['catatan'] ?? '') }}</textarea>
+            <div class="flex flex-col gap-2 text-left">
+                <label for="catatan{{ $laporan['id_laporan'] }}" class="text-gray-700 text-sm text-left">Catatan</label>
+                <textarea
+                    name="catatan"
+                    id="catatan{{ $laporan['id_laporan'] }}"
+                    rows="3"
+                    class="catatanTextarea border border-gray-300 rounded p-2 text-sm w-full focus:ring-2 focus:ring-green-400 focus:outline-none text-left"
+                    placeholder="Tambahkan catatan..."
+                    @if($laporan['status'] != 'Revisi') disabled style="background: #f1f1f1;" @endif
+                >{{ old('catatan', $laporan['catatan'] ?? '') }}</textarea>
             </div>
 
             <!-- Tombol aksi -->
-            <div class="flex justify-end gap-3 pt-4">
-                <button type="button" 
-                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
-                        onclick="closeModal('editModal{{ $laporan['id'] }}')">
-                     Batal
+            <div class="flex justify-end gap-3 pt-2 border-gray-200">
+                <button type="button" onclick="closeModal('editModal{{ $laporan['id_laporan'] }}')"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-lg transition">
+                    Batal
                 </button>
-                <button type="submit" 
-                        class="px-5 py-2 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition">
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg transition">
                     Simpan
                 </button>
             </div>
+
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".statusSelect").forEach(select => {
+        select.addEventListener("change", function () {
+            const targetId = this.getAttribute("data-target");
+            const textarea = document.getElementById(targetId);
+
+            if (this.value === "Revisi") {
+                textarea.disabled = false;
+                textarea.style.background = "white";
+            } else {
+                textarea.disabled = true;
+                textarea.style.background = "#f1f1f1";
+                textarea.value = ""; // Optional: kosongkan catatan
+            }
+        });
+    });
+});
+</script>

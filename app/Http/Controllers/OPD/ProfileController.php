@@ -2,54 +2,78 @@
 
 namespace App\Http\Controllers\OPD;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Pengguna;
 
 class ProfileController extends Controller
 {
-    // Menampilkan halaman edit profil
     public function edit()
     {
         $user = Auth::user();
         return view('opd.profile.edit', compact('user'));
     }
 
-    // Update profil
     public function update(Request $request)
     {
         $user = Auth::user();
+        $userId = $user->id_user;
 
         $request->validate([
             'nama'  => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email'
         ]);
 
-        $user->name  = $request->nama;
-        $user->email = $request->email;
+        $emailExists = Pengguna::where('email', $request->email)
+            ->where('id_user', '!=', $userId)
+            ->exists();
+
+        if ($emailExists) {
+            return back()->withErrors(['email' => 'Email sudah digunakan'])->withInput();
+        }
+
+        $user->nama_opd  = $request->nama;
+        $user->email     = $request->email;
         $user->save();
 
-        return redirect()->route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
+        return back()->with('success', 'Profil berhasil diperbarui.');
     }
 
-    // Update password
     public function updatePassword(Request $request)
     {
         $user = Auth::user();
 
+        // Validasi password kuat: minimal 8 karakter, huruf besar, huruf kecil, angka, simbol
         $request->validate([
-            'current_password'      => 'required',
-            'new_password'          => 'required|string|min:8|confirmed',
+            'password_lama' => 'required',
+            'password_baru' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed', // harus ada password_baru_confirmation
+                'regex:/[a-z]/',      // huruf kecil
+                'regex:/[A-Z]/',      // huruf besar
+                'regex:/[0-9]/',      // angka
+                'regex:/[@$!%*?&]/'   // simbol
+            ]
+        ], [
+            'password_baru.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol'
         ]);
 
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Kata sandi saat ini salah']);
+        // cek password lama
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return back()->withErrors(['password_lama' => 'Password lama salah']);
         }
 
-        $user->password = Hash::make($request->new_password);
+        // update password
+        $user->password = Hash::make($request->password_baru);
         $user->save();
 
-        return redirect()->route('opd.profile.edit')->with('success', 'Kata sandi berhasil diperbarui.');
+        // logout user dan redirect ke login
+        Auth::logout();
+
+        return redirect()->route('login')->with('success', 'Password berhasil diperbarui. Silakan login kembali.');
     }
 }

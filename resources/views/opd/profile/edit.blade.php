@@ -45,6 +45,15 @@
 </div>
 
 <script>
+
+    document.getElementById('btnUbah').addEventListener('click', function () {
+
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(i => i.disabled = false);
+
+    this.style.display = 'none'; // sembunyikan tombol ubah setelah diklik
+});
+
     // Tab functionality
     function openTab(tabId, event) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));

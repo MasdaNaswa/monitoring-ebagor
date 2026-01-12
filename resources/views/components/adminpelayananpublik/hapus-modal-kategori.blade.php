@@ -1,5 +1,5 @@
 @foreach($kategories as $kategori)
-<div id="hapusModal{{ $kategori['id'] }}" 
+<div id="hapusModal{{ $kategori['id_kategori'] }}" 
     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
 
     <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6">
@@ -23,13 +23,13 @@
         <!-- Footer -->
         <div class="flex justify-end gap-3 mt-6">
             <button type="button" 
-                onclick="closeModal('hapusModal{{ $kategori['id'] }}')" 
+                onclick="closeModal('hapusModal{{ $kategori['id_kategori'] }}')" 
                 class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition">
                 Batal
             </button>
 
             <form method="POST" 
-                action="{{ route('adminpelayananpublik.kategori.destroy', $kategori['id']) }}">
+                action="{{ route('adminpelayananpublik.kategori.destroy', $kategori['id_kategori']) }}">
                 @csrf
                 @method('DELETE')
                 <button type="submit" 

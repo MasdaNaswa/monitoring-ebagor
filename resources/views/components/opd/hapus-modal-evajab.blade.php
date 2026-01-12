@@ -12,7 +12,7 @@
         <!-- Body -->
         <div class="text-center">
             <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-3"></i>
-            <p class="text-gray-700">Apakah Anda yakin ingin menghapus dokumen Evaluasi Jabatan ini?</p>
+            <p class="text-gray-700">Apakah Anda yakin ingin menghapus dokumen ini?</p>
         </div>
 
         <!-- Footer -->
